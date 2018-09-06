@@ -1,0 +1,6 @@
+# robots.txt for Mr. Gottham's Homepage
+
+User-agent: *
+Disallow: /oswebdb
+Disallow: /docs
+Disallow: /images

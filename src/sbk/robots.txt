@@ -1,0 +1,6 @@
+# robots.txt for Svendborg Billard Klub
+
+User-agent: *
+Disallow: /oswebdb
+Disallow: /docs
+Disallow: /images

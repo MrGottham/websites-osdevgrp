@@ -1,0 +1,6 @@
+# robots.txt for Mathias Johannes Sørensen
+
+User-agent: *
+Disallow: /oswebdb
+Disallow: /docs
+Disallow: /images
