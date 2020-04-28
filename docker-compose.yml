@@ -1,15 +1,19 @@
-version: '3'
+version: "3.7"
+
 services:
-  websites-osdevgrp:
-    build: .
-    image: websites-osdevgrp:latest
-    container_name: websites-osdevgrp
-    domainname: osdevgrp.local
-    hostname: websites
-    network_mode: "bridge"
+
+  websites:
+    image: websites
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        mySqlHost: [TBD]
+        mySqlDatabase: [TBD]
+        mySqlDefaultUser: [TBD]
+        realm: [TBD]
+        reduceFoodWasteHost: [TBD]        
     ports:
-      - "8080:80"
-      - "8443:443"
-    extra_hosts:
-      - "mysql.osdevgrp.local:127.0.0.1"
-      - "mother.osdevgrp.local:127.0.0.1"
+      - "80:80"
+      - "443:443"
+    restart: always

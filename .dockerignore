@@ -1,4 +1,9 @@
 # Directories
+.git/
+.vs/
+.vscode/
 
 # Files
-Dockerfile
+.dockerignore
+.gitignore
+docker-compose.yml
