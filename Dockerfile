@@ -28,6 +28,7 @@ ARG reduceFoodWasteHost=[TBD]
 RUN a2enmod rewrite
 RUN a2enmod proxy
 RUN a2enmod proxy_http
+RUN a2enmod headers
 RUN a2enmod ssl
 RUN service apache2 restart
 COPY config/apache2/ssl/star.osdevgrp.local.crt /etc/apache2/ssl/star.osdevgrp.local.crt
