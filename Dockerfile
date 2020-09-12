@@ -2,6 +2,11 @@
 FROM php:7.2-apache
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
+## Install OpenSSH server, Certbot and OpenSSL
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN apt-get install -y openssh-server certbot openssl
+
 ## Copy all website files
 ARG mySqlHost=[TBD]
 ARG mySqlDatabase=[TBD]
@@ -10,6 +15,7 @@ COPY src/mrgottham/ /var/www/mrgottham
 COPY src/patrick/ /var/www/patrick
 COPY src/mathias/ /var/www/mathias
 COPY src/sbk/ /var/www/sbk
+RUN mkdir -p /var/www/mrgottham/.well-known/acme-challenge
 RUN sed -i "s/MySqlHost = \[TBD\]/MySqlHost = ${mySqlHost}/g" /var/www/mrgottham/config.ini
 RUN sed -i "s/MySqlDatabase = \[TBD\]/MySqlDatabase = ${mySqlDatabase}/g" /var/www/mrgottham/config.ini
 RUN sed -i "s/Realm = \[TBD\]/Realm = ${realm}/g" /var/www/mrgottham/config.ini
@@ -51,4 +57,16 @@ ARG mySqlDefaultUser=[TBD]
 COPY config/php/php.ini /usr/local/etc/php/
 RUN sed -i "s/mysqli.default_user = \[TBD\]/mysqli.default_user = ${mySqlDefaultUser}/g" /usr/local/etc/php/php.ini
 
-EXPOSE 80 443
+## Setup OpenSSH server
+ARG sshPassword=[TBD]
+RUN mkdir /var/run/sshd
+RUN echo "root:${sshPassword}" | chpasswd
+RUN sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
+RUN sed -i "s/#Port 22/Port 2222/g" /etc/ssh/sshd_config
+RUN sed -i "/#!\/bin\/sh/a\/etc\/init.d\/ssh start" /usr/local/bin/docker-php-entrypoint
+
+## Setup Certbot
+VOLUME ["/etc/letsencrypt", "/var/lib/letsencrypt"]
+
+## Expose ports
+EXPOSE 80 443 2222
