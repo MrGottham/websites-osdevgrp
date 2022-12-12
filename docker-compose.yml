@@ -9,20 +9,14 @@ services:
       dockerfile: Dockerfile
       args:
         mySqlHost: [TBD]
-        mySqlDatabase: [TBD]
         mySqlDefaultUser: [TBD]
+        mySqlDatabase: [TBD]
+        mySqlCharset: [TBD]
         realm: [TBD]
         reduceFoodWasteHost: [TBD]
-        sshPassword: [TBD]        
+        sshPassword: [TBD]
     ports:
       - "80:80"
       - "443:443"
       - "8022:2222"
     restart: always
-    volumes:
-      - letsencrypt-config:/etc/letsencrypt
-      - letsencrypt-data:/var/lib/letsencrypt
-
-volumes: 
-  letsencrypt-config:
-  letsencrypt-data:

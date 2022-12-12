@@ -145,12 +145,58 @@
   function oswebdb_connect($UserName, $Password)
   {
     $Result = 0;
+    $MySqlLink = mysqli_init();
+    $MySqlCaCertificate = (string) GetConfigValue("MySqlCaCertificate");
+    if (!(file_exists($MySqlCaCertificate) && mysqli_ssl_set($MySqlLink, null, null, $MySqlCaCertificate, null, null)))
+    {
+      if (GetConfigValue("ErrorReporting") > 1)
+      {
+        exit("Unable to set SSL for the MySQL client using the CA certificate: $MySqlCaCertificate");
+      }
+      return $Result;
+    }
+    $MySqlHost = (string) GetConfigValue("MySqlHost");
+    $MySqlDatabase = (string) GetConfigValue("MySqlDatabase");
     if (isset($UserName) && isset($Password))
-      $MySqlLink = mysqli_connect((string) GetConfigValue("MySqlHost"), $UserName, $Password);
+    {
+      if (!mysqli_real_connect($MySqlLink, $MySqlHost, $UserName, $Password, $MySqlDatabase, 3306, null, MYSQLI_CLIENT_SSL))
+      {
+        if (GetConfigValue("ErrorReporting") > 1)
+        {
+          exit("Unable to connect to the given mysql host.");
+        }
+        return $Result;
+      }
+    }
     else
-      $MySqlLink = mysqli_connect((string) GetConfigValue("MySqlHost"));
+    {
+      $MySqlUserName = (string) GetConfigValue("MySqlUserName");
+      if (!mysqli_real_connect($MySqlLink, $MySqlHost, $MySqlUserName, null, $MySqlDatabase, 3306, null, MYSQLI_CLIENT_SSL))
+      {
+        if (GetConfigValue("ErrorReporting") > 1)
+        {
+          exit("Unable to connect to the given mysql host.");
+        }
+        return $Result;
+      }
+    }
+    if (mysqli_connect_errno($MySqlLink))
+    {
+      if (GetConfigValue("ErrorReporting") > 1)
+      {
+        $Error = mysqli_connect_error();
+        exit($Error);
+      }
+      return $Result;
+    }
+
     if ($MySqlLink)
     {
+      $MySqlCharset = (string) GetConfigValue("MySqlCharset");
+      if (isset($MySqlCharset) && strlen($MySqlCharset) > 0)
+      {
+        mysqli_set_charset($MySqlLink, $MySqlCharset);
+      }
       oswebdb_setmysqllink($MySqlLink);
       $Result = 1;
     }
