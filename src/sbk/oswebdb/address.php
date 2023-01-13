@@ -46,7 +46,14 @@
     if (isset($BirthDate))
     {
       $Fields = "$Fields,BirthDate";
-      $Values = "$Values,\"$BirthDate\"";
+      if (strlen($BirthDate) > 0)
+      {
+        $Values = "$Values,\"$BirthDate\"";
+      }
+      else
+      {
+        $Values = "$Values,NULL";
+      }
     }
     if (isset($GroupNo))
     {
@@ -141,9 +148,24 @@
     if (isset($BirthDate))
     {
       if (strlen($Set) > 0)
-        $Set = "$Set,BirthDate=\"$BirthDate\"";
-      else
+      {
+        if (strlen($BirthDate) > 0)
+        {
+          $Set = "$Set,BirthDate=\"$BirthDate\"";
+        }
+        else
+        {
+          $Set = "$Set,BirthDate=NULL";
+        }
+      }
+      else if (strlen($BirthDate) > 0)
+      {
         $Set = "BirthDate=\"$BirthDate\"";
+      }
+      else
+      {
+        $Set = "BirthDate=NULL";
+      }
     }
     if (isset($GroupNo))
     {
