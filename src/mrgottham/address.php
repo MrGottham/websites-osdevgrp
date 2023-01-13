@@ -188,8 +188,8 @@
           echo "  }\r\n\r\n";
           echo "  function validateBirthDate(birthdate)\r\n";
           echo "  {\r\n";
-          echo "    if (birthdate.length == 0)\r\n";
-          echo "      birthdate = '0000-00-00'\r\n";
+          echo "    if (birthdate.length > 0 && birthdate == '0000-00-00')\r\n";
+          echo "      birthdate = ''\r\n";
           echo "    return birthdate\r\n";
           echo "  }\r\n\r\n";
           echo "  function resetAddress()\r\n";
@@ -360,7 +360,7 @@
           echo "        <tr><td width=\"1%\" align=\"right\" nowrap></td><td width=\"59%\" nowrap>$FirstInput</td><td width=\"1%\" align=\"right\" nowrap>Telefax :</td><td width=\"39%\">$SecondInput</td></tr>\r\n";
           $FirstInput = MakeHtmlInputText("ZipCode", ($NewAddress ? "" : $AddressRow[5]), get_zipcode_length($SystemNo, ($NewAddress ? get_system_country_code($SystemNo) : $AddressRow[4])), get_zipcode_length($SystemNo, ($NewAddress ? get_system_country_code($SystemNo) : $AddressRow[4])), ($NewAddress ? !$AllowInsert : !$AllowUpdate), ($NewAddress ? !$AllowInsert : !$AllowUpdate), $TabIndex++, "javascript:parent.getCityName(this.form.CountryCode.value, this.value, this.form.CityName)");
           $SecondInput = MakeHtmlInputText("CityName", ($NewAddress ? "" : get_city_name($SystemNo, $AddressRow[4], $AddressRow[5])), get_city_name_length($SystemNo), get_city_name_length($SystemNo), 1, ($NewAddress ? !$AllowInsert : !$AllowUpdate), $TabIndex++, "");
-          $ThirdInput = MakeHtmlInputText("BirthDate", ($NewAddress ? "0000-00-00" : $AddressRow[9]), oswebdb_field_len($AddressResult, 9), oswebdb_field_len($AddressResult, 9), ($NewAddress ? !$AllowInsert : !$AllowUpdate), ($NewAddress ? !$AllowInsert : !$AllowUpdate), ($TabIndex - 1) + $TabAdjust, "javascript:this.value = validateBirthDate(this.value)");
+          $ThirdInput = MakeHtmlInputText("BirthDate", ($NewAddress ? "" : $AddressRow[9]), oswebdb_field_len($AddressResult, 9), oswebdb_field_len($AddressResult, 9), ($NewAddress ? !$AllowInsert : !$AllowUpdate), ($NewAddress ? !$AllowInsert : !$AllowUpdate), ($TabIndex - 1) + $TabAdjust, "javascript:this.value = validateBirthDate(this.value)");
           echo "        <tr><td width=\"1%\" align=\"right\" nowrap>Postnummer og by :</td><td width=\"59%\" nowrap>$FirstInput&nbsp;&nbsp;$SecondInput</td><td width=\"1%\" align=\"right\" nowrap>Fødselsdato :</td><td width=\"39%\">$ThirdInput</td></tr>\r\n";
           $TableSystemNo = get_system_for_table($SystemNo, 2);
           $Options = "<option value=\"0\"";

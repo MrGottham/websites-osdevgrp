@@ -296,8 +296,8 @@
             echo "  {\r\n";
             echo "    if (active != 2)\r\n";
             echo "    {\r\n";
-            echo "      oForm.ActiveFrom.value = '0000-00-00'\r\n";
-            echo "      oForm.ActiveTo.value = '0000-00-00'\r\n";
+            echo "      oForm.ActiveFrom.value = ''\r\n";
+            echo "      oForm.ActiveTo.value = ''\r\n";
             echo "    }\r\n";
             echo "    oForm.ActiveFrom.readOnly = (active != 2)\r\n";
             echo "    oForm.ActiveFrom.disabled = (active != 2)\r\n";
@@ -586,8 +586,8 @@
                 echo "            <tr><td width=\"1%\" align=\"right\" nowrap></td><td width=\"99%\">$Input</td></tr>\r\n";
                 $Input = MakeHtmlInputRadio("Active", "2", 0, !$AllowInsert, $TabIndex++, "javascript:changeActiveRadioControl(this.form, parseInt(this.value, 10))", "Aktiv i periode");
                 echo "            <tr><td width=\"1%\" align=\"right\" nowrap></td><td width=\"99%\">$Input</td></tr>\r\n";
-                $InputFrom = MakeHtmlInputText("ActiveFrom", "0000-00-00", oswebdb_field_len($ContentResult, 6), oswebdb_field_len($ContentResult, 6), 1, 1, $TabIndex++, "javascript:return changeActiveFromEditControl(this.form)");
-                $InputTo = MakeHtmlInputText("ActiveTo", "0000-00-00", oswebdb_field_len($Result, 7), oswebdb_field_len($Result, 7), 1, 1, $TabIndex++, "javascript:return changeActiveToEditControl(this.form)");
+                $InputFrom = MakeHtmlInputText("ActiveFrom", "", oswebdb_field_len($ContentResult, 6), oswebdb_field_len($ContentResult, 6), 1, 1, $TabIndex++, "javascript:return changeActiveFromEditControl(this.form)");
+                $InputTo = MakeHtmlInputText("ActiveTo", "", oswebdb_field_len($Result, 7), oswebdb_field_len($Result, 7), 1, 1, $TabIndex++, "javascript:return changeActiveToEditControl(this.form)");
                 echo "            <tr><td width=\"1%\" align=\"right\" nowrap>Aktiv i perioden :</td><td width=\"99%\">$InputFrom&nbsp;til&nbsp;$InputTo</td></tr>\r\n";
                 $Text = "";
               }

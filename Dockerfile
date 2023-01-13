@@ -14,13 +14,13 @@ ARG mySqlDatabase=[TBD]
 ARG mySqlCharset=[TBD]
 ARG realm=[TBD]
 COPY src/mrgottham/ /var/www/mrgottham
-COPY config/ssl/BaltimoreCyberTrustRoot.crt.pem /var/www/mrgottham/ssl/mysql-ca-cert.pem
+COPY config/ssl/DigiCertGlobalRootCA.crt.pem /var/www/mrgottham/ssl/mysql-ca-cert.pem
 COPY src/patrick/ /var/www/patrick
-COPY config/ssl/BaltimoreCyberTrustRoot.crt.pem /var/www/patrick/ssl/mysql-ca-cert.pem
+COPY config/ssl/DigiCertGlobalRootCA.crt.pem /var/www/patrick/ssl/mysql-ca-cert.pem
 COPY src/mathias/ /var/www/mathias
-COPY config/ssl/BaltimoreCyberTrustRoot.crt.pem /var/www/mathias/ssl/mysql-ca-cert.pem
+COPY config/ssl/DigiCertGlobalRootCA.crt.pem /var/www/mathias/ssl/mysql-ca-cert.pem
 COPY src/sbk/ /var/www/sbk
-COPY config/ssl/BaltimoreCyberTrustRoot.crt.pem /var/www/sbk/ssl/mysql-ca-cert.pem
+COPY config/ssl/DigiCertGlobalRootCA.crt.pem /var/www/sbk/ssl/mysql-ca-cert.pem
 RUN mkdir -p /var/www/mrgottham/.well-known/acme-challenge
 RUN sed -i "s/MySqlHost = \[TBD\]/MySqlHost = ${mySqlHost}/g" /var/www/mrgottham/config.ini
 RUN sed -i "s/MySqlUserName = \[TBD\]/MySqlUserName = ${mySqlDefaultUser}/g" /var/www/mrgottham/config.ini

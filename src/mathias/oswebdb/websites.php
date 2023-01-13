@@ -107,25 +107,63 @@
       if (isset($ActiveFrom))
       {
         if (strlen($Update) > 0)
-          $Update = "$Update,ActiveFrom=\"$ActiveFrom\"";
-        else
+        {
+          if (strlen($ActiveFrom) > 0)
+          {
+            $Update = "$Update,ActiveFrom=\"$ActiveFrom\"";
+          }
+          else
+          {
+            $Update = "$Update,ActiveFrom=NULL";
+          }
+        }
+        else if (strlen($ActiveFrom) > 0)
+        {
           $Update = "ActiveFrom=\"$ActiveFrom\"";
+        }
+        else
+        {
+          $Update = "ActiveFrom=NULL";
+        }
       }
       else if (strlen($Update) > 0)
+      {
         $Update = "$Update,ActiveFrom=NULL";
+      }
       else
+      {
         $Update = "ActiveFrom=NULL";
+      }
       if (isset($ActiveTo))
       {
         if (strlen($Update) > 0)
-          $Update = "$Update,ActiveTo=\"$ActiveTo\"";
-        else
+        {
+          if (strlen($ActiveTo) > 0)
+          {
+            $Update = "$Update,ActiveTo=\"$ActiveTo\"";
+          }
+          else
+          {
+            $Update = "$Update,ActiveTo=NULL";
+          }
+        }
+        else if (strlen($ActiveTo) > 0)
+        {
           $Update = "ActiveTo=\"$ActiveTo\"";
+        }
+        else
+        {
+          $Update = "ActiveTo=NULL";
+        }
       }
       else if (strlen($Update) > 0)
+      {
         $Update = "$Update,ActiveTo=NULL";
+      }
       else
+      {
         $Update = "ActiveTo=NULL";
+      }
     }
     if ($TypeFields & 16)
     {
@@ -294,7 +332,14 @@
         if (isset($ActiveFrom))
         {
           $Fields = "$Fields,ActiveFrom";
-          $Values = "$Values,\"$ActiveFrom\"";
+          if (strlen($ActiveFrom) > 0)
+          {
+            $Values = "$Values,\"$ActiveFrom\"";
+          }
+          else
+          {
+            $Values = "$Values,NULL";
+          }
         }
         else
         {
@@ -304,7 +349,14 @@
         if (isset($ActiveTo))
         {
           $Fields = "$Fields,ActiveTo";
-          $Values = "$Values,\"$ActiveTo\"";
+          if (strlen($ActiveTo) > 0)
+          {
+            $Values = "$Values,\"$ActiveTo\"";
+          }
+          else
+          {
+            $Values = "$Values,NULL";
+          }
         }
         else
         {
@@ -422,25 +474,63 @@
         if (isset($ActiveFrom))
         {
           if (strlen($Update) > 0)
-            $Update = "$Update,ActiveFrom=\"$ActiveFrom\"";
-          else
+          {
+            if (strlen($ActiveFrom) > 0)
+            {
+              $Update = "$Update,ActiveFrom=\"$ActiveFrom\"";
+            }
+            else
+            {
+              $Update = "$Update,ActiveFrom=NULL";
+            }
+          }
+          else if (strlen($ActiveFrom) > 0)
+          {
             $Update = "ActiveFrom=\"$ActiveFrom\"";
+          }
+          else
+          {
+            $Update = "ActiveFrom=NULL";
+          }
         }
         else if (strlen($Update) > 0)
+        {
           $Update = "$Update,ActiveFrom=NULL";
+        }
         else
+        {
           $Update = "ActiveFrom=NULL";
+        }
         if (isset($ActiveTo))
         {
           if (strlen($Update) > 0)
-            $Update = "$Update,ActiveTo=\"$ActiveTo\"";
-          else
+          {
+            if (strlen($ActiveTo) > 0)
+            {
+              $Update = "$Update,ActiveTo=\"$ActiveTo\"";
+            }
+            else
+            {
+              $Update = "$Update,ActiveTo=NULL";
+            }
+          }
+          else if (strlen($ActiveTo) > 0)
+          {
             $Update = "ActiveTo=\"$ActiveTo\"";
+          }
+          else
+          {
+            $Update = "ActiveTo=NULL";
+          }
         }
         else if (strlen($Update) > 0)
+        {
           $Update = "$Update,ActiveTo=NULL";
+        }
         else
+        {
           $Update = "ActiveTo=NULL";
+        }
       }
       if ($ContentTypeFields & 32)
       {
@@ -632,7 +722,7 @@
     }
     if ($Result && ($TypeFields & 8))
     {
-      $Result = ($Active == 1) || ($Active == 2 && strcmp(date("Y-m-d", time()), $ActiveFrom) >= 0 && strcmp(date("Y-m-d", time()), $ActiveTo) <= 0);
+      $Result = ($Active == 1) || ($Active == 2 && ($ActiveFrom == null || strlen($ActiveFrom) == 0 || strcmp(date("Y-m-d", time()), $ActiveFrom) >= 0) && ($ActiveFrom == null || strlen($ActiveFrom) == 0 || strlen($ActiveTo) == 0 || strcmp(date("Y-m-d", time()), $ActiveTo) <= 0));
     }
     if ($Result && ($TypeFields & 16))
     {
