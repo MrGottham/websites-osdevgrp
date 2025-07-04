@@ -8,19 +8,19 @@ RUN apt-get -y upgrade
 RUN apt-get install -y openssh-server openssl
 
 ## Copy all website files
-ARG mySqlHost=[TBD]
-ARG mySqlDefaultUser=[TBD]
-ARG mySqlDatabase=[TBD]
-ARG mySqlCharset=[TBD]
-ARG realm=[TBD]
+ARG mySqlHost
+ARG mySqlDefaultUser
+ARG mySqlDatabase
+ARG mySqlCharset
+ARG realm
 COPY src/mrgottham/ /var/www/mrgottham
-COPY config/ssl/DigiCertGlobalRootCA.crt.pem /var/www/mrgottham/ssl/mysql-ca-cert.pem
+COPY config/ssl/RootCertificates.crt.pem /var/www/mrgottham/ssl/mysql-ca-cert.pem
 COPY src/patrick/ /var/www/patrick
-COPY config/ssl/DigiCertGlobalRootCA.crt.pem /var/www/patrick/ssl/mysql-ca-cert.pem
+COPY config/ssl/RootCertificates.crt.pem /var/www/patrick/ssl/mysql-ca-cert.pem
 COPY src/mathias/ /var/www/mathias
-COPY config/ssl/DigiCertGlobalRootCA.crt.pem /var/www/mathias/ssl/mysql-ca-cert.pem
+COPY config/ssl/RootCertificates.crt.pem /var/www/mathias/ssl/mysql-ca-cert.pem
 COPY src/sbk/ /var/www/sbk
-COPY config/ssl/DigiCertGlobalRootCA.crt.pem /var/www/sbk/ssl/mysql-ca-cert.pem
+COPY config/ssl/RootCertificates.crt.pem /var/www/sbk/ssl/mysql-ca-cert.pem
 RUN mkdir -p /var/www/mrgottham/.well-known/acme-challenge
 RUN sed -i "s/MySqlHost = \[TBD\]/MySqlHost = ${mySqlHost}/g" /var/www/mrgottham/config.ini
 RUN sed -i "s/MySqlUserName = \[TBD\]/MySqlUserName = ${mySqlDefaultUser}/g" /var/www/mrgottham/config.ini
@@ -44,7 +44,7 @@ RUN sed -i "s/MySqlCharset = \[TBD\]/MySqlCharset = ${mySqlCharset}/g" /var/www/
 RUN sed -i "s/Realm = \[TBD\]/Realm = ${realm}/g" /var/www/sbk/config.ini
 
 ## Setup Apache HTTP Server
-ARG reduceFoodWasteHost=[TBD]
+ARG reduceFoodWasteHost
 RUN a2enmod rewrite
 RUN a2enmod proxy
 RUN a2enmod proxy_http
@@ -71,7 +71,7 @@ COPY config/php/php.ini /usr/local/etc/php/
 RUN sed -i "s/mysqli.default_user = \[TBD\]/mysqli.default_user = ${mySqlDefaultUser}/g" /usr/local/etc/php/php.ini
 
 ## Setup OpenSSH server
-ARG sshPassword=[TBD]
+ARG sshPassword
 RUN mkdir /var/run/sshd
 RUN echo "root:${sshPassword}" | chpasswd
 RUN sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/g" /etc/ssh/sshd_config
