@@ -6,4 +6,5 @@
 # Files
 .dockerignore
 .gitignore
+.env
 docker-compose.yml
